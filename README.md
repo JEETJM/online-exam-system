@@ -149,3 +149,35 @@ online_exam_system/
 ├── manage.py
 ├── requirements.txt
 └── README.md
+
+
+⚙️ Installation & Setup
+1️⃣ Clone the repository
+git clone https://github.com/JEETJM/online-exam-system.git
+cd online-exam-system
+2️⃣ Create virtual environment
+python -m venv venv
+3️⃣ Activate virtual environment
+Windows
+venv\Scripts\activate
+Mac/Linux
+source venv/bin/activate
+4️⃣ Install dependencies
+pip install django
+
+Or if you have requirements.txt:
+
+pip install -r requirements.txt
+5️⃣ Run migrations
+python manage.py makemigrations
+python manage.py migrate
+6️⃣ Create superuser
+python manage.py createsuperuser
+7️⃣ Start development server
+python manage.py runserver
+8️⃣ Open in browser
+http://127.0.0.1:8000/
+
+Admin panel:
+
+http://127.0.0.1:8000/admin/
