@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="hero-section">
+    <div class="hero-card text-center">
+        <span class="hero-badge"><i class="bi bi-stars"></i> Smart • Secure • Timed</span>
+        <h1>Online Examination System</h1>
+        <p class="lead">
+            A premium Django-based role-based platform for students, teachers, and administrators.
+            Create exams, attempt tests, review answers, and track results with a beautiful modern interface.
+        </p>
+
+        <div class="d-flex justify-content-center gap-3 flex-wrap mt-4">
+            <a href="{% url 'register' %}" class="btn btn-gradient btn-lg">Get Started</a>
+            <a href="{% url 'exam_list' %}" class="btn btn-outline-dark btn-lg">Browse Exams</a>
+        </div>
+    </div>
+</section>
+
+<section class="row g-4 mt-4">
+    <div class="col-md-4">
+        <div class="feature-card">
+            <div class="feature-icon"><i class="bi bi-person-badge"></i></div>
+            <h4>Student Panel</h4>
+            <p>Register, log in, attend timed exams, and instantly review your results and answers.</p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="feature-card">
+            <div class="feature-icon"><i class="bi bi-person-workspace"></i></div>
+            <h4>Teacher Panel</h4>
+            <p>Create, publish, and manage exams with question handling and performance monitoring.</p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="feature-card">
+            <div class="feature-icon"><i class="bi bi-shield-lock"></i></div>
+            <h4>Admin Panel</h4>
+            <p>Full system access with centralized management for users, exams, attempts, and reports.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

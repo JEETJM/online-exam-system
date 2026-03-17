@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="dashboard-header mb-4">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div>
+            <h2>Welcome, {{ user.username }}</h2>
+            <p class="mb-0">Role: <strong>{{ profile.role|title }}</strong></p>
+        </div>
+        <div class="dashboard-badge">
+            <i class="bi bi-lightning-charge-fill"></i>  Dashboard
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="stat-card">
+            <div class="stat-icon purple"><i class="bi bi-journal-bookmark-fill"></i></div>
+            <h5>Available Exams</h5>
+            <h2>Explore</h2>
+            <p class="mb-0 text-muted">View all active published exams</p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="stat-card">
+            <div class="stat-icon blue"><i class="bi bi-bar-chart-fill"></i></div>
+            <h5>Your Results</h5>
+            <h2>Track</h2>
+            <p class="mb-0 text-muted">Check all attempts and scores</p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="stat-card">
+            <div class="stat-icon green"><i class="bi bi-shield-check"></i></div>
+            <h5>System Access</h5>
+            <h2>Secure</h2>
+            <p class="mb-0 text-muted">Protected role-based access</p>
+        </div>
+    </div>
+</div>
+
+<div class="glass-card p-4">
+    <h4 class="mb-3">Quick Actions</h4>
+    <div class="d-flex flex-wrap gap-3">
+        <a href="{% url 'exam_list' %}" class="btn btn-dark">
+            <i class="bi bi-journal-text me-2"></i>View Exams
+        </a>
+
+        <a href="{% url 'result_list' %}" class="btn btn-success">
+            <i class="bi bi-bar-chart-line me-2"></i>View Results
+        </a>
+
+        {% if profile.role == 'teacher' %}
+            <a href="{% url 'exam_create' %}" class="btn btn-gradient">
+                <i class="bi bi-plus-circle me-2"></i>Create Exam
+            </a>
+        {% endif %}
+
+        {% if user.is_superuser %}
+            <a href="/admin/" class="btn btn-warning">
+                <i class="bi bi-gear-fill me-2"></i>Admin Panel
+            </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

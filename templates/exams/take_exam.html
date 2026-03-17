@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="glass-card p-4">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+        <div>
+            <h2 class="mb-1">{{ exam.title }}</h2>
+            <p class="text-muted mb-0">Answer all questions carefully</p>
+        </div>
+        <div class="timer-box" id="timer">{{ exam.duration_minutes }}:00</div>
+    </div>
+
+    <form method="post" id="examForm">
+        {% csrf_token %}
+
+        {% for q in questions %}
+            <div class="question-card mb-4">
+                <p class="fw-bold mb-3">Q{{ forloop.counter }}. {{ q.question_text }}</p>
+
+                <label class="option-box">
+                    <input type="radio" name="question_{{ q.id }}" value="A">
+                    <span>{{ q.option_a }}</span>
+                </label>
+
+                <label class="option-box">
+                    <input type="radio" name="question_{{ q.id }}" value="B">
+                    <span>{{ q.option_b }}</span>
+                </label>
+
+                <label class="option-box">
+                    <input type="radio" name="question_{{ q.id }}" value="C">
+                    <span>{{ q.option_c }}</span>
+                </label>
+
+                <label class="option-box">
+                    <input type="radio" name="question_{{ q.id }}" value="D">
+                    <span>{{ q.option_d }}</span>
+                </label>
+            </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-success w-100 py-3">Submit Exam</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+let minutes = {{ exam.duration_minutes }};
+let seconds = 0;
+const timerElement = document.getElementById('timer');
+const examForm = document.getElementById('examForm');
+
+const countdown = setInterval(() => {
+    if (seconds === 0) {
+        if (minutes === 0) {
+            clearInterval(countdown);
+            alert('Time is up! Your exam will be submitted automatically.');
+            examForm.submit();
+            return;
+        }
+        minutes--;
+        seconds = 59;
+    } else {
+        seconds--;
+    }
+
+    timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+}, 1000);
+
+window.addEventListener('beforeunload', function (e) {
+    e.preventDefault();
+    e.returnValue = '';
+});
+</script>
+{% endblock %}

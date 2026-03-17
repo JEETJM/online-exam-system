@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="glass-card form-card">
+            <h2 class="mb-4">{{ page_title|default:"Create Exam" }}</h2>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <label for="{{ form.title.id_for_label }}">Title</label>
+                        {{ form.title }}
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="{{ form.subject.id_for_label }}">Subject</label>
+                        {{ form.subject }}
+                    </div>
+
+                    <div class="col-12">
+                        <label for="{{ form.description.id_for_label }}">Description</label>
+                        {{ form.description }}
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="{{ form.duration_minutes.id_for_label }}">Duration Minutes</label>
+                        {{ form.duration_minutes }}
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="{{ form.passing_marks.id_for_label }}">Passing Marks</label>
+                        {{ form.passing_marks }}
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="{{ form.attempt_limit.id_for_label }}">Attempt Limit</label>
+                        {{ form.attempt_limit }}
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="glass-card p-3 h-100">
+                            <div class="form-check">
+                                {{ form.is_active }}
+                                <label class="form-check-label ms-2" for="{{ form.is_active.id_for_label }}">Is Active</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="glass-card p-3 h-100">
+                            <div class="form-check">
+                                {{ form.is_published }}
+                                <label class="form-check-label ms-2" for="{{ form.is_published.id_for_label }}">Is Published</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-gradient px-4 py-2">Save Exam</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

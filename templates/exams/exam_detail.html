@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="glass-card p-4 mb-4">
+    <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+        <div>
+            <h2>{{ exam.title }}</h2>
+            <p class="text-muted">{{ exam.subject }}</p>
+            <p>{{ exam.description }}</p>
+        </div>
+
+        <div class="exam-summary-box">
+            <p><strong>Total Marks:</strong> {{ exam.total_marks }}</p>
+            <p><strong>Duration:</strong> {{ exam.duration_minutes }} min</p>
+            <p><strong>Passing Marks:</strong> {{ exam.passing_marks }}</p>
+        </div>
+    </div>
+
+    {% if user.is_authenticated and user.profile.role == 'student' %}
+    <div class="alert alert-info rounded-4 mt-3">
+        Attempts used: {{ attempts_used }} | Attempts left: {{ attempts_left }}
+    </div>
+    {% endif %}
+
+    <div class="d-flex flex-wrap gap-2 mt-3">
+        {% if user.is_authenticated and user.profile.role == 'teacher' and user == exam.teacher %}
+            <a href="{% url 'exam_update' exam.id %}" class="btn btn-warning">Edit Exam</a>
+            <a href="{% url 'question_create' exam.id %}" class="btn btn-gradient">Add Question</a>
+            <a href="{% url 'exam_delete' exam.id %}" class="btn btn-danger">Delete Exam</a>
+        {% endif %}
+
+        {% if user.is_authenticated and user.profile.role == 'student' and attempts_left > 0 %}
+            <a href="{% url 'exam_instructions' exam.id %}" class="btn btn-success">Proceed to Instructions</a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="glass-card p-4">
+    <h4 class="mb-3">Questions</h4>
+    <ol class="mb-0">
+        {% for q in questions %}
+            <li class="mb-3">
+                <div class="fw-bold">{{ q.question_text }}</div>
+                <div class="text-muted small">Marks: {{ q.marks }}</div>
+
+                {% if user.is_authenticated and user.profile.role == 'teacher' and user == exam.teacher %}
+                <div class="mt-2 d-flex gap-2">
+                    <a href="{% url 'question_update' q.id %}" class="btn btn-sm btn-outline-warning">Edit</a>
+                    <a href="{% url 'question_delete' q.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                </div>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>No questions added yet.</li>
+        {% endfor %}
+    </ol>
+</div>
+{% endblock %}
