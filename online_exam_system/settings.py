@@ -402,16 +402,41 @@ LOGIN_URL = 'login'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# if os.environ.get("CREATE_SUPERUSER") == "1":
+#     try:
+#         from django.contrib.auth import get_user_model
+#         User = get_user_model()
+
+#         if not User.objects.filter(username="admin").exists():
+#             User.objects.create_superuser(
+#                 username="admin",
+#                 email="admin@gmail.com",
+#                 password="admin123"
+#             )
+#     except Exception:
+#         pass
+
+
+
 if os.environ.get("CREATE_SUPERUSER") == "1":
     try:
         from django.contrib.auth import get_user_model
         User = get_user_model()
 
-        if not User.objects.filter(username="admin").exists():
-            User.objects.create_superuser(
-                username="admin",
-                email="admin@gmail.com",
-                password="admin123"
-            )
+        user, created = User.objects.get_or_create(
+            username="admin",
+            defaults={
+                "email": "admin@gmail.com",
+                "is_staff": True,
+                "is_superuser": True,
+            },
+        )
+
+        user.email = "admin@gmail.com"
+        user.is_staff = True
+        user.is_superuser = True
+        user.is_active = True
+        user.set_password("admin123")
+        user.save()
     except Exception:
         pass
