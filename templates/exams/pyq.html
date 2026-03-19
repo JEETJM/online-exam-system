@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% block title %}PYQ | ExamSphere{% endblock %}
+
+{% block content %}
+
+<div class="page-head mb-4 text-center">
+    <h2>Previous Year Questions</h2>
+    <p>Practice with PYQ sets, model papers, repeated questions, and exam-oriented collections.</p>
+</div>
+
+<div class="row g-4">
+    {% for item in pyqs %}
+    <div class="col-lg-4 col-md-6">
+        <div class="feature-card h-100">
+            <div class="feature-icon blue">
+                <i class="bi bi-file-earmark-text-fill"></i>
+            </div>
+            <h4>{{ item.title }}</h4>
+            <p class="mb-2">{{ item.desc }}</p>
+
+            <ul class="home-feature-list mt-3">
+                <li><i class="bi bi-check-circle-fill"></i><span><strong> &nbsp Subject : &nbsp</strong> {{ item.subject }}</span></li>
+                <li><i class="bi bi-check-circle-fill"></i><span><strong> &nbsp Year : &nbsp</strong> {{ item.year }}</span></li>
+                <li><i class="bi bi-check-circle-fill"></i><span><strong> &nbsp Type : &nbsp</strong> {{ item.paper_type }}</span></li>
+            </ul>
+
+            <div class="hero-btn-group mt-4 justify-content-start">
+                <a href="https://drive.google.com/file/d/1YvhJ81eo1YJlWW-wQJx6SXyoXFmcTYKB/view?usp=sharing" class="btn btn-gradient">
+                    <i class="bi bi-eye-fill me-2"></i>View Paper
+                </a>
+                <a href="https://drive.google.com/drive/folders/1sO3WBrd4TeE4jYT0osYkpSgc5uZYbbpi" class="btn btn-outline-dark">
+                    <i class="bi bi-download me-2"></i>Download
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<section class="mt-5">
+    <div class="glass-card p-4">
+        <div class="page-head mb-3">
+            <h2>Why Practice PYQ?</h2>
+            <p>Exactly the kind of section users expect on a real exam preparation website.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card h-100">
+                    <div class="stat-icon blue mx-auto">
+                        <i class="bi bi-repeat"></i>
+                    </div>
+                    <h5>Repeated Topics</h5>
+                    <h2>High</h2>
+                    <p class="mb-0 text-muted">Identify common and repeated questions</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card h-100">
+                    <div class="stat-icon purple mx-auto">
+                        <i class="bi bi-journal-check"></i>
+                    </div>
+                    <h5>Pattern</h5>
+                    <h2>Clear</h2>
+                    <p class="mb-0 text-muted">Understand question style and exam trend</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card h-100">
+                    <div class="stat-icon green mx-auto">
+                        <i class="bi bi-lightning-charge-fill"></i>
+                    </div>
+                    <h5>Preparation</h5>
+                    <h2>Fast</h2>
+                    <p class="mb-0 text-muted">Practice smartly before final exams</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card h-100">
+                    <div class="stat-icon orange mx-auto">
+                        <i class="bi bi-graph-up-arrow"></i>
+                    </div>
+                    <h5>Confidence</h5>
+                    <h2>Better</h2>
+                    <p class="mb-0 text-muted">Boost performance with targeted practice</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

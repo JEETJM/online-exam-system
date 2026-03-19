@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block title %}Support | ExamSphere{% endblock %}
+
+{% block content %}
+
+<div class="page-head mb-4 text-center">
+    <h2>Support & Resources</h2>
+    <p>Helpful guidance, downloadable resources, support information, and portal assistance.</p>
+</div>
+
+<div class="row g-4">
+    {% for item in support_items %}
+    <div class="col-lg-4 col-md-6">
+        <div class="feature-card text-center h-100">
+            <div class="feature-icon orange mx-auto">
+                <i class="bi {{ item.icon }}"></i>
+            </div>
+            <h4>{{ item.title }}</h4>
+            <p>{{ item.desc }}</p>
+
+            <div class="hero-btn-group mt-4 justify-content-center">
+                <a href="#" class="btn btn-gradient">
+                    <i class="bi bi-arrow-right-circle me-2"></i>Explore
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<section class="mt-5">
+    <div class="glass-card p-4">
+        <div class="page-head mb-3 text-center">
+            <h2>Need Help with the Platform?</h2>
+            <p>Use these common support actions like a real-world educational web portal.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="timeline-card text-center h-100">
+                    <div class="timeline-number">01</div>
+                    <h4>Login Support</h4>
+                    <p>Facing issues while logging in, accessing dashboard, or using teacher/student role?</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="timeline-card text-center h-100">
+                    <div class="timeline-number">02</div>
+                    <h4>Exam Help</h4>
+                    <p>Problems with exam timer, submission, attempts, question view, or result generation?</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="timeline-card text-center h-100">
+                    <div class="timeline-number">03</div>
+                    <h4>Academic Resources</h4>
+                    <p>Need books, PYQs, revision materials, or extra portal guidance for preparation?</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="mt-5">
+    <div class="cta-box text-center">
+        <h2>Stay Connected with ExamSphere</h2>
+        <p>
+            Reach support, browse resources, explore study materials, and continue your exam preparation smoothly.
+        </p>
+
+        <div class="hero-btn-group mt-4">
+            <a href="{% url 'books_page' %}" class="btn btn-gradient btn-lg px-4">
+                <i class="bi bi-book-fill me-2"></i>Books
+            </a>
+            <a href="{% url 'pyq_page' %}" class="btn btn-outline-dark btn-lg px-4">
+                <i class="bi bi-file-earmark-text-fill me-2"></i>PYQ
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

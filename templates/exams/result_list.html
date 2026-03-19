@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
+{% block title %}Results | ExamSphere{% endblock %}
 {% block content %}
+
 <div class="page-head mb-4">
     <h2>Results</h2>
     <p>Track all exam attempts and performance</p>
@@ -7,7 +9,7 @@
 
 <div class="glass-card p-4">
     <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
+        <table class="table align-middle result-table">
             <thead>
                 <tr>
                     <th>Student</th>
@@ -28,23 +30,24 @@
                     <td>{{ result.percentage }}%</td>
                     <td>
                         {% if result.pass_status %}
-                            <span class="badge bg-success">Pass</span>
+                        <span class="badge bg-success">Pass</span>
                         {% else %}
-                            <span class="badge bg-danger">Fail</span>
+                        <span class="badge bg-danger">Fail</span>
                         {% endif %}
                     </td>
-                    <td>{{ result.submitted_at }}</td>
+                    <td>{{ result.submitted_at|date:"F d, Y, g:i a" }}</td>
                     <td>
-                        <a href="{% url 'result_detail' result.id %}" class="btn btn-sm btn-primary">View</a>
+                        <a href="{% url 'result_detail' result.id %}" class="btn btn-sm btn-gradient">View</a>
                     </td>
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="7" class="text-center py-4">No results found.</td>
+                    <td colspan="7" class="text-center">No results found.</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
+
 {% endblock %}

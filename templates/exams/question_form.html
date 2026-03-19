@@ -1,54 +1,33 @@
 {% extends 'base.html' %}
+{% block title %}Add Question | ExamSphere{% endblock %}
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-lg-10">
-        <div class="glass-card form-card">
-            <h2 class="mb-4">Add Question — {{ exam.title }}</h2>
+
+<div class="row justify-content-center align-items-center min-vh-75">
+    <div class="col-lg-8">
+        <div class="form-card glass-card">
+            <div class="text-center mb-4">
+                <div class="feature-icon mx-auto mb-3">
+                    <i class="bi bi-patch-question-fill"></i>
+                </div>
+                <h2>Add Question</h2>
+                <p class="text-muted">Exam: {{ exam.title }}</p>
+            </div>
 
             <form method="post">
                 {% csrf_token %}
-                <div class="row g-4">
-                    <div class="col-12">
-                        <label for="{{ form.question_text.id_for_label }}">Question</label>
-                        {{ form.question_text }}
-                    </div>
+                {{ form.as_p }}
 
-                    <div class="col-md-6">
-                        <label for="{{ form.option_a.id_for_label }}">Option A</label>
-                        {{ form.option_a }}
-                    </div>
-
-                    <div class="col-md-6">
-                        <label for="{{ form.option_b.id_for_label }}">Option B</label>
-                        {{ form.option_b }}
-                    </div>
-
-                    <div class="col-md-6">
-                        <label for="{{ form.option_c.id_for_label }}">Option C</label>
-                        {{ form.option_c }}
-                    </div>
-
-                    <div class="col-md-6">
-                        <label for="{{ form.option_d.id_for_label }}">Option D</label>
-                        {{ form.option_d }}
-                    </div>
-
-                    <div class="col-md-6">
-                        <label for="{{ form.correct_option.id_for_label }}">Correct Option</label>
-                        {{ form.correct_option }}
-                    </div>
-
-                    <div class="col-md-6">
-                        <label for="{{ form.marks.id_for_label }}">Marks</label>
-                        {{ form.marks }}
-                    </div>
-                </div>
-
-                <div class="mt-4">
-                    <button type="submit" class="btn btn-success px-4 py-2">Save Question</button>
+                <div class="d-flex gap-3 flex-wrap mt-3">
+                    <button type="submit" class="btn btn-gradient px-4">
+                        <i class="bi bi-plus-circle me-2"></i>Add Question
+                    </button>
+                    <a href="{% url 'exam_detail' exam.id %}" class="btn btn-outline-dark px-4">
+                        Back
+                    </a>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
 {% endblock %}

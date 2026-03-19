@@ -21,19 +21,36 @@ def register(request):
     return render(request, 'accounts/register.html', {'form': form})
 
 
-@login_required
-def dashboard(request):
-    profile, created = Profile.objects.get_or_create(user=request.user)
-    return render(request, 'accounts/dashboard.html', {'profile': profile})
+# @login_required
+# def dashboard(request):
+#     profile, created = Profile.objects.get_or_create(user=request.user)
+#     return render(request, 'accounts/dashboard.html', {'profile': profile})
 
 
 def teacher_required(view_func):
     return user_passes_test(
-        lambda u: u.is_authenticated and hasattr(u, 'profile') and u.profile.role == 'teacher'
+        lambda u: u.is_authenticated and hasattr(
+            u, 'profile') and u.profile.role == 'teacher'
     )(view_func)
 
 
 def student_required(view_func):
     return user_passes_test(
-        lambda u: u.is_authenticated and hasattr(u, 'profile') and u.profile.role == 'student'
+        lambda u: u.is_authenticated and hasattr(
+            u, 'profile') and u.profile.role == 'student'
     )(view_func)
+
+
+@login_required
+def dashboard(request):
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
+    context = {
+        'profile': profile,
+        'total_exams': 0,
+        'attempted_exams': 0,
+        'passed_exams': 0,
+        'failed_exams': 0,
+    }
+
+    return render(request, 'accounts/dashboard.html', context)

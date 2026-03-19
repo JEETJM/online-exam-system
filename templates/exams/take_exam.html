@@ -1,75 +1,73 @@
 {% extends 'base.html' %}
+{% block title %}Take Exam | ExamSphere{% endblock %}
 {% block content %}
+
 <div class="glass-card p-4">
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
         <div>
-            <h2 class="mb-1">{{ exam.title }}</h2>
-            <p class="text-muted mb-0">Answer all questions carefully</p>
+            <h2>{{ exam.title }}</h2>
+            <p class="text-muted">Answer all questions carefully.</p>
         </div>
-        <div class="timer-box" id="timer">{{ exam.duration_minutes }}:00</div>
+        <div class="timer-box" id="timer">
+            {{ exam.duration_minutes }}:00
+        </div>
     </div>
 
     <form method="post" id="examForm">
         {% csrf_token %}
 
-        {% for q in questions %}
-            <div class="question-card mb-4">
-                <p class="fw-bold mb-3">Q{{ forloop.counter }}. {{ q.question_text }}</p>
+        {% for question in questions %}
+        <div class="question-card mb-4">
+            <h4>{{ forloop.counter }}. {{ question.question_text }}</h4>
 
-                <label class="option-box">
-                    <input type="radio" name="question_{{ q.id }}" value="A">
-                    <span>{{ q.option_a }}</span>
-                </label>
+            <label class="option-box">
+                <input type="radio" name="question_{{ question.id }}" value="A">
+                <span>A. {{ question.option_a }}</span>
+            </label>
 
-                <label class="option-box">
-                    <input type="radio" name="question_{{ q.id }}" value="B">
-                    <span>{{ q.option_b }}</span>
-                </label>
+            <label class="option-box">
+                <input type="radio" name="question_{{ question.id }}" value="B">
+                <span>B. {{ question.option_b }}</span>
+            </label>
 
-                <label class="option-box">
-                    <input type="radio" name="question_{{ q.id }}" value="C">
-                    <span>{{ q.option_c }}</span>
-                </label>
+            <label class="option-box">
+                <input type="radio" name="question_{{ question.id }}" value="C">
+                <span>C. {{ question.option_c }}</span>
+            </label>
 
-                <label class="option-box">
-                    <input type="radio" name="question_{{ q.id }}" value="D">
-                    <span>{{ q.option_d }}</span>
-                </label>
-            </div>
+            <label class="option-box">
+                <input type="radio" name="question_{{ question.id }}" value="D">
+                <span>D. {{ question.option_d }}</span>
+            </label>
+        </div>
         {% endfor %}
 
-        <button type="submit" class="btn btn-success w-100 py-3">Submit Exam</button>
+        <button type="submit" class="btn btn-gradient">
+            <i class="bi bi-send-check me-2"></i>Submit Exam
+        </button>
     </form>
 </div>
-{% endblock %}
 
-{% block script %}
 <script>
-let minutes = {{ exam.duration_minutes }};
-let seconds = 0;
-const timerElement = document.getElementById('timer');
-const examForm = document.getElementById('examForm');
+    let totalSeconds = {{ exam.duration_minutes }} * 60;
+    const timer = document.getElementById("timer");
+    const form = document.getElementById("examForm");
 
-const countdown = setInterval(() => {
-    if (seconds === 0) {
-        if (minutes === 0) {
-            clearInterval(countdown);
-            alert('Time is up! Your exam will be submitted automatically.');
-            examForm.submit();
-            return;
+    function updateTimer() {
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        timer.textContent =
+            String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+
+        if (totalSeconds <= 0) {
+            form.submit();
+        } else {
+            totalSeconds--;
+            setTimeout(updateTimer, 1000);
         }
-        minutes--;
-        seconds = 59;
-    } else {
-        seconds--;
     }
 
-    timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-}, 1000);
-
-window.addEventListener('beforeunload', function (e) {
-    e.preventDefault();
-    e.returnValue = '';
-});
+    updateTimer();
 </script>
+
 {% endblock %}

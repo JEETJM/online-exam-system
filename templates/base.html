@@ -1,78 +1,47 @@
-{% load static %}
+{% comment %} {% load static %}
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ExamSphere | Online Examination System</title>
-    <link
-      rel="icon"
-      href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8FAGDHeAuPB75_kQNIBVB1mtl3QfFevqSqQ&s"
-    />
+    <title>{% block title %}ExamSphere{% endblock %}</title>
 
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
       rel="stylesheet"
     />
     <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+      rel="icon"
+      href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8FAGDHeAuPB75_kQNIBVB1mtl3QfFevqSqQ&s"
     />
-
-    <script>
-      (function () {
-        const savedTheme = localStorage.getItem("theme") || "light";
-        document.documentElement.setAttribute("data-theme", savedTheme);
-      })();
-    </script>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark main-navbar sticky-top">
+    <nav class="navbar navbar-expand-lg main-navbar">
       <div class="container">
         <a class="navbar-brand" href="{% url 'home' %}">
-          <i class="bi bi-mortarboard-fill"></i>
-          <span>ExamSphere</span>
+          <i class="bi bi-mortarboard-fill me-1"></i> ExamSphere
         </a>
 
         <button
-          class="navbar-toggler"
+          class="navbar-toggler border-0 shadow-none text-white"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
+          data-bs-target="#navbarMain"
         >
-          <span class="navbar-toggler-icon"></span>
+          <i class="bi bi-list fs-2"></i>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="collapse navbar-collapse" id="navbarMain">
           <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
             <li class="nav-item">
               <a class="nav-link" href="{% url 'home' %}">
                 <i class="bi bi-house-door"></i> Home
               </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'exam_list' %}">
-                <i class="bi bi-journal-text"></i> Exams
-              </a>
-            </li>
-            <li class="nav-item">
-              <button
-                id="themeToggle"
-                class="theme-toggle-btn"
-                type="button"
-                aria-label="Toggle theme"
-              >
-                <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
-              </button>
             </li>
 
             {% if user.is_authenticated %}
@@ -83,27 +52,322 @@
             </li>
 
             <li class="nav-item">
+              <a class="nav-link" href="{% url 'exam_list' %}">
+                <i class="bi bi-journal-text"></i> Exams
+              </a>
+            </li>
+
+            <li class="nav-item">
               <a class="nav-link" href="{% url 'result_list' %}">
                 <i class="bi bi-bar-chart-line"></i> Results
               </a>
             </li>
 
+            {% if user.profile.role == 'teacher' %}
             <li class="nav-item">
-              <form action="{% url 'logout' %}" method="post" class="d-inline">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-danger px-3">
-                  Logout
-                </button>
-              </form>
+              <a class="nav-link" href="{% url 'exam_create' %}">
+                <i class="bi bi-plus-circle"></i> Create Exam
+              </a>
+            </li>
+            {% endif %} {% endif %}
+
+            <li class="nav-item">
+              <button
+                type="button"
+                id="themeToggle"
+                class="theme-toggle-btn ms-lg-2 mt-2 mt-lg-0"
+                aria-label="Toggle theme"
+              >
+                <i class="bi bi-sun-fill" id="themeIcon"></i>
+              </button>
+            </li>
+
+            {% if user.is_authenticated %}
+            <li class="nav-item dropdown ms-lg-2 mt-2 mt-lg-0">
+              <a
+                class="nav-link dropdown-toggle d-flex align-items-center gap-2"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+              >
+                <div class="nav-profile-avatar">
+                  {{ user.username|first|upper }}
+                </div>
+                <span class="d-none d-lg-inline">{{ user.username }}</span>
+              </a>
+
+              <ul
+                class="dropdown-menu dropdown-menu-end profile-dropdown border-0 shadow-lg"
+              >
+                <li class="dropdown-header">
+                  <strong>{{ user.username }}</strong><br />
+                  <small class="text-muted"
+                    >{{ user.profile.role|title }}</small
+                  >
+                </li>
+
+                <li><hr class="dropdown-divider" /></li>
+
+                <li><hr class="dropdown-divider" /></li>
+
+                <li><hr class="dropdown-divider" /></li>
+
+                <li>
+                  <form action="{% url 'logout' %}" method="post" class="m-0">
+                    {% csrf_token %}
+                    <button type="submit" class="dropdown-item text-danger">
+                      <i class="bi bi-box-arrow-right me-2"></i>Logout
+                    </button>
+                  </form>
+                </li>
+              </ul>
             </li>
             {% else %}
             <li class="nav-item">
-              <a class="btn btn-outline-light px-3" href="{% url 'login' %}"
-                >Login</a
+              <a class="nav-link" href="{% url 'login' %}">
+                <i class="bi bi-box-arrow-in-right"></i> Login
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a
+                class="btn btn-gradient ms-lg-2 px-3 mt-2 mt-lg-0"
+                href="{% url 'register' %}"
               >
+                Register
+              </a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="py-4 min-vh-75">
+      <div class="container">
+        {% if messages %} {% for message in messages %}
+        <div
+          class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show shadow-sm"
+          role="alert"
+        >
+          {{ message }}
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+          ></button>
+        </div>
+        {% endfor %} {% endif %} {% block content %}{% endblock %}
+      </div>
+    </main>
+
+    <footer class="footer-section py-4 mt-5">
+      <div class="container">
+        <div class="social-links justify-content-center mb-3">
+          <a href="https://github.com/JEETJM" target="_blank"
+            ><i class="bi bi-github"></i
+          ></a>
+          <a href="https://www.linkedin.com/in/jm1904/" target="_blank"
+            ><i class="bi bi-linkedin"></i
+          ></a>
+          <a href="mailto:jm382118@gmail.com"
+            ><i class="bi bi-envelope-fill"></i
+          ></a>
+          <a href="https://www.instagram.com/igx_jeet/"
+            ><i class="bi bi-instagram"></i
+          ></a>
+        </div>
+
+        <p class="footer-copy text-center mb-0">
+          © 2026 ExamSphere | Designed & Developed by Jeet Mondal
+        </p>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const htmlTag = document.documentElement;
+        const toggleBtn = document.getElementById("themeToggle");
+        const themeIcon = document.getElementById("themeIcon");
+
+        const savedTheme = localStorage.getItem("theme");
+
+        if (savedTheme === "light" || savedTheme === "dark") {
+          htmlTag.setAttribute("data-theme", savedTheme);
+          updateThemeIcon(savedTheme);
+        } else {
+          htmlTag.setAttribute("data-theme", "dark");
+          updateThemeIcon("dark");
+        }
+
+        if (toggleBtn) {
+          toggleBtn.addEventListener("click", function () {
+            const currentTheme = htmlTag.getAttribute("data-theme");
+            const newTheme = currentTheme === "dark" ? "light" : "dark";
+            htmlTag.setAttribute("data-theme", newTheme);
+            localStorage.setItem("theme", newTheme);
+            updateThemeIcon(newTheme);
+          });
+        }
+
+        function updateThemeIcon(theme) {
+          if (theme === "dark") {
+            themeIcon.className = "bi bi-sun-fill";
+          } else {
+            themeIcon.className = "bi bi-moon-fill";
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
+{% endcomment %} 
+
+
+{% load static %}
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}ExamSphere{% endblock %}</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+      <link
+      rel="icon"
+      href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8FAGDHeAuPB75_kQNIBVB1mtl3QfFevqSqQ&s"
+    />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg main-navbar sticky-top">
+      <div class="container">
+        <a
+          class="navbar-brand d-flex align-items-center gap-2"
+          href="{% url 'home' %}"
+        >
+          <i class="bi bi-mortarboard-fill brand-icon"></i>
+          <span>ExamSphere</span>
+        </a>
+
+        <button
+          class="navbar-toggler text-white border-0 shadow-none"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarMain"
+        >
+          <i class="bi bi-list fs-2"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarMain">
+          <ul class="navbar-nav ms-auto align-items-lg-center gap-2">
+            <li class="nav-item">
+              <a
+                class="nav-link nav-pill {% if request.path == '/' %}active{% endif %}"
+                href="{% url 'home' %}"
+              >
+                <i class="bi bi-house-door me-1"></i>Home
+              </a>
+            </li>
+
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a
+                class="nav-link nav-pill {% if 'dashboard' in request.path %}active{% endif %}"
+                href="{% url 'dashboard' %}"
+              >
+                <i class="bi bi-speedometer2 me-1"></i>Dashboard
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a
+                class="nav-link nav-pill {% if '/exams/' in request.path and '/results/' not in request.path %}active{% endif %}"
+                href="{% url 'exam_list' %}"
+              >
+                <i class="bi bi-journal-text me-1"></i>Exams
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a
+                class="nav-link nav-pill {% if '/results/' in request.path %}active{% endif %}"
+                href="{% url 'result_list' %}"
+              >
+                <i class="bi bi-bar-chart-line me-1"></i>Results
+              </a>
+            </li>
+
+            {% if user.profile.role == 'teacher' %}
+            <li class="nav-item">
+              <a
+                class="nav-link nav-pill nav-pill-create {% if 'create' in request.path %}active{% endif %}"
+                href="{% url 'exam_create' %}"
+              >
+                <i class="bi bi-plus-circle me-1"></i>Create Exam
+              </a>
+            </li>
+            {% endif %} {% endif %}
+
+            <li class="nav-item">
+              <button
+                type="button"
+                id="themeToggle"
+                class="theme-toggle-btn"
+                aria-label="Toggle theme"
+              >
+                <i class="bi bi-sun-fill" id="themeIcon"></i>
+              </button>
+            </li>
+
+            {% if user.is_authenticated %}
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link d-flex align-items-center gap-2"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+              >
+                <div class="nav-profile-avatar">
+                  {{ user.username|first|upper }}
+                </div>
+                <span class="d-none d-lg-inline text-white"
+                  >{{ user.username }}</span
+                >
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end profile-dropdown">
+                <li class="dropdown-header">
+                  <strong>{{ user.username }}</strong><br />
+                  <small>{{ user.profile.role|title }}</small>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <form action="{% url 'logout' %}" method="post" class="m-0">
+                    {% csrf_token %}
+                    <button type="submit" class="dropdown-item text-danger">
+                      <i class="bi bi-box-arrow-right me-2"></i>Logout
+                    </button>
+                  </form>
+                </li>
+              </ul>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link nav-pill" href="{% url 'login' %}">
+                <i class="bi bi-box-arrow-in-right me-1"></i>Login
+              </a>
             </li>
             <li class="nav-item">
-              <a class="btn btn-warning px-3" href="{% url 'register' %}"
+              <a class="btn btn-gradient" href="{% url 'register' %}"
                 >Register</a
               >
             </li>
@@ -113,59 +377,74 @@
       </div>
     </nav>
 
-    <div class="container py-4">
-      {% if messages %} {% for message in messages %}
-      <div
-        class="alert alert-{{ message.tags }} alert-dismissible fade show rounded-4 shadow-sm"
-        role="alert"
-      >
-        {{ message }}
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="alert"
-        ></button>
+    <main class="main-content py-4">
+      <div class="container">
+        {% if messages %} {% for message in messages %}
+        <div
+          class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show"
+          role="alert"
+        >
+          {{ message }}
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+          ></button>
+        </div>
+        {% endfor %} {% endif %} {% block content %}{% endblock %}
       </div>
-      {% endfor %} {% endif %} {% block content %}{% endblock %}
-    </div>
+    </main>
 
-    <footer class="footer-section mt-5">
-      <div class="container text-center py-4">
-        <p class="mb-0">
-          © 2026 Online Examination System | Built with Django + Bootstrap
+    <footer class="footer-section py-4 mt-5">
+      <div class="container text-center">
+        <div class="social-links justify-content-center mb-3">
+          <a href="https://github.com/JEETJM" target="_blank"
+            ><i class="bi bi-github"></i
+          ></a>
+          <a href="https://www.linkedin.com/in/jm1904/" target="_blank"
+            ><i class="bi bi-linkedin"></i
+          ></a>
+          <a href="mailto:jm382118@gmail.com"
+            ><i class="bi bi-envelope-fill"></i
+          ></a>
+          <a href="https://www.instagram.com/igx_jeet/"><i class="bi bi-instagram"></i></a>
+        </div>
+        <p class="footer-copy mb-0">
+          © 2026 ExamSphere | Designed & Developed by Jeet Mondal
         </p>
       </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
-      const themeToggle = document.getElementById("themeToggle");
-      const themeIcon = document.getElementById("themeIcon");
+      document.addEventListener("DOMContentLoaded", function () {
+        const htmlTag = document.documentElement;
+        const toggleBtn = document.getElementById("themeToggle");
+        const themeIcon = document.getElementById("themeIcon");
+        const savedTheme = localStorage.getItem("theme");
 
-      function updateThemeIcon(theme) {
-        if (!themeIcon) return;
-        if (theme === "dark") {
-          themeIcon.className = "bi bi-sun-fill";
-        } else {
-          themeIcon.className = "bi bi-moon-stars-fill";
+        function updateThemeIcon(theme) {
+          themeIcon.className =
+            theme === "dark" ? "bi bi-sun-fill" : "bi bi-moon-fill";
         }
-      }
 
-      const currentTheme =
-        document.documentElement.getAttribute("data-theme") || "light";
-      updateThemeIcon(currentTheme);
+        if (savedTheme === "light" || savedTheme === "dark") {
+          htmlTag.setAttribute("data-theme", savedTheme);
+          updateThemeIcon(savedTheme);
+        } else {
+          htmlTag.setAttribute("data-theme", "dark");
+          updateThemeIcon("dark");
+        }
 
-      if (themeToggle) {
-        themeToggle.addEventListener("click", function () {
-          const oldTheme =
-            document.documentElement.getAttribute("data-theme") || "light";
-          const newTheme = oldTheme === "dark" ? "light" : "dark";
-          document.documentElement.setAttribute("data-theme", newTheme);
+        toggleBtn.addEventListener("click", function () {
+          const currentTheme = htmlTag.getAttribute("data-theme");
+          const newTheme = currentTheme === "dark" ? "light" : "dark";
+          htmlTag.setAttribute("data-theme", newTheme);
           localStorage.setItem("theme", newTheme);
           updateThemeIcon(newTheme);
         });
-      }
+      });
     </script>
-    {% block script %}{% endblock %}
   </body>
 </html>

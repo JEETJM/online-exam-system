@@ -1,44 +1,433 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {% extends 'base.html' %}
+{% block title %}Home | ExamSphere{% endblock %}
+
 {% block content %}
+
 <section class="hero-section">
-    <div class="hero-card text-center">
-        <span class="hero-badge"><i class="bi bi-stars"></i> Smart • Secure • Timed</span>
-        <h1>Online Examination System</h1>
+    <div class="hero-card">
+        <span class="hero-badge">
+            <i class="bi bi-stars"></i>
+            Smart • Secure • Premium
+        </span>
+
+        <h1>Next-Generation Online Examination Platform</h1>
         <p class="lead">
-            A premium Django-based role-based platform for students, teachers, and administrators.
-            Create exams, attempt tests, review answers, and track results with a beautiful modern interface.
+            A role-based Django web application for students, teachers, and administrators with timed exams,
+            instant results, dashboard analytics, resources, and modern UI.
         </p>
 
-        <div class="d-flex justify-content-center gap-3 flex-wrap mt-4">
-            <a href="{% url 'register' %}" class="btn btn-gradient btn-lg">Get Started</a>
-            <a href="{% url 'exam_list' %}" class="btn btn-outline-dark btn-lg">Browse Exams</a>
+        <div class="hero-btn-group mt-4">
+            {% if user.is_authenticated %}
+                <a href="{% url 'dashboard' %}" class="btn btn-gradient btn-lg px-4">
+                    <i class="bi bi-speedometer2 me-2"></i>Go to Dashboard
+                </a>
+                <a href="{% url 'exam_list' %}" class="btn btn-outline-dark btn-lg px-4">
+                    <i class="bi bi-journal-text me-2"></i>Browse Exams
+                </a>
+            {% else %}
+                <a href="{% url 'register' %}" class="btn btn-gradient btn-lg px-4">
+                    <i class="bi bi-person-plus-fill me-2"></i>Get Started
+                </a>
+                <a href="{% url 'login' %}" class="btn btn-outline-dark btn-lg px-4">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                </a>
+            {% endif %}
+        </div>
+
+        <div class="hero-stats-grid mt-5">
+            <div class="hero-stat-card">
+                <h3>3</h3>
+                <p>User Roles</p>
+            </div>
+            <div class="hero-stat-card">
+                <h3>100%</h3>
+                <p>Instant Results</p>
+            </div>
+            <div class="hero-stat-card">
+                <h3>24/7</h3>
+                <p>Online Access</p>
+            </div>
+            <div class="hero-stat-card">
+                <h3>Secure</h3>
+                <p>Role-Based System</p>
+            </div>
         </div>
     </div>
 </section>
 
-<section class="row g-4 mt-4">
-    <div class="col-md-4">
-        <div class="feature-card">
-            <div class="feature-icon"><i class="bi bi-person-badge"></i></div>
-            <h4>Student Panel</h4>
-            <p>Register, log in, attend timed exams, and instantly review your results and answers.</p>
-        </div>
+<section class="mt-5">
+    <div class="page-head text-center mb-4">
+        <h2>Why Choose ExamSphere?</h2>
+        <p>Built for modern academic workflow, smart evaluation, and premium user experience.</p>
     </div>
 
-    <div class="col-md-4">
-        <div class="feature-card">
-            <div class="feature-icon"><i class="bi bi-person-workspace"></i></div>
-            <h4>Teacher Panel</h4>
-            <p>Create, publish, and manage exams with question handling and performance monitoring.</p>
+    <div class="row g-4">
+        <div class="col-lg-3 col-md-6">
+            <div class="feature-card text-center h-100">
+                <div class="feature-icon mx-auto">
+                    <i class="bi bi-shield-lock-fill"></i>
+                </div>
+                <h4>Secure Access</h4>
+                <p>Protected login, role-based dashboard, exam ownership control, and teacher-level authorization.</p>
+            </div>
         </div>
-    </div>
 
-    <div class="col-md-4">
-        <div class="feature-card">
-            <div class="feature-icon"><i class="bi bi-shield-lock"></i></div>
-            <h4>Admin Panel</h4>
-            <p>Full system access with centralized management for users, exams, attempts, and reports.</p>
+        <div class="col-lg-3 col-md-6">
+            <div class="feature-card text-center h-100">
+                <div class="feature-icon blue mx-auto">
+                    <i class="bi bi-stopwatch-fill"></i>
+                </div>
+                <h4>Timed Exams</h4>
+                <p>Real exam-style environment with countdown timer, auto-submit workflow, and better discipline.</p>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="feature-card text-center h-100">
+                <div class="feature-icon green mx-auto">
+                    <i class="bi bi-bar-chart-fill"></i>
+                </div>
+                <h4>Instant Results</h4>
+                <p>Automatic score generation, percentage calculation, pass/fail status, and answer review panel.</p>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="feature-card text-center h-100">
+                <div class="feature-icon orange mx-auto">
+                    <i class="bi bi-grid-1x2-fill"></i>
+                </div>
+                <h4>Smart Dashboard</h4>
+                <p>Student and teacher panels with quick actions, resource links, result tracking, and profile overview.</p>
+            </div>
         </div>
     </div>
 </section>
+
+<section class="mt-5">
+    <div class="page-head text-center mb-4">
+        <h2>Books, PYQ & Resources</h2>
+        <p>Everything students usually expect in a real exam portal.</p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-4 col-md-6">
+            <div class="feature-card h-100">
+                <div class="feature-icon green">
+                    <i class="bi bi-book-fill"></i>
+                </div>
+                <h4>Books & Notes</h4>
+                <p>Access curated academic books, handwritten notes, semester guides, lab manuals, and revision sheets.</p>
+                <ul class="home-feature-list mt-3">
+                    <li><i class="bi bi-check-circle-fill"></i><span> &nbsp Subject-wise study materials</span></li>
+                    <li><i class="bi bi-check-circle-fill"></i><span> &nbsp Important concept notes</span></li>
+                    <li><i class="bi bi-check-circle-fill"></i><span> &nbsp Exam preparation handbooks</span></li>
+                </ul>
+                <a href="{% url 'books_page' %}" class="btn btn-gradient mt-3">
+                    <i class="bi bi-arrow-right-circle me-2"></i>Open Books
+                </a>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="feature-card h-100">
+                <div class="feature-icon blue">
+                    <i class="bi bi-file-earmark-text-fill"></i>
+                </div>
+                <h4>PYQ & Practice Sets</h4>
+                <p>Practice with previous year questions, solved papers, MCQ banks, model tests, and topic-wise PYQ collections.</p>
+                <ul class="home-feature-list mt-3">
+                    <li><i class="bi bi-check-circle-fill"></i><span> &nbsp Previous year papers</span></li>
+                    <li><i class="bi bi-check-circle-fill"></i><span> &nbsp Important repeated questions</span></li>
+                    <li><i class="bi bi-check-circle-fill"></i><span> &nbsp MCQ and short-answer practice</span></li>
+                </ul>
+                <a href="{% url 'pyq_page' %}" class="btn btn-gradient mt-3">
+                    <i class="bi bi-arrow-right-circle me-2"></i>Open PYQ
+                </a>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="feature-card h-100">
+                <div class="feature-icon orange">
+                    <i class="bi bi-download"></i>
+                </div>
+                <h4>Downloads & Support</h4>
+                <p>Get syllabus PDFs, admit-card style documents, sample patterns, practical files, and support resources.</p>
+                <ul class="home-feature-list mt-3">
+                    <li><i class="bi bi-check-circle-fill"></i><span> &nbsp Downloadable academic files</span></li>
+                    <li><i class="bi bi-check-circle-fill"></i><span> &nbsp Resource links and help</span></li>
+                    <li><i class="bi bi-check-circle-fill"></i><span> &nbsp Guidance for exam workflow</span></li>
+                </ul>
+                <a href="{% url 'support_page' %}" class="btn btn-gradient mt-3">
+                    <i class="bi bi-arrow-right-circle me-2"></i>Open Resources
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="mt-5">
+    <div class="page-head text-center mb-4">
+        <h2>How It Works</h2>
+        <p>Simple, fast, and student-friendly online examination flow.</p>
+    </div>
+
+    <div class="row g-4 how-it-works-row">
+        <div class="col-lg-4">
+            <div class="timeline-card text-center h-100">
+                <div class="timeline-number">01</div>
+                <h4>Register & Login</h4>
+                <p>Create your student or teacher account and access your personalized dashboard securely.</p>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="timeline-card text-center h-100">
+                <div class="timeline-number">02</div>
+                <h4>Attend or Create Exams</h4>
+                <p>Students attempt live exams while teachers create, update, and manage question sets easily.</p>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="timeline-card text-center h-100">
+                <div class="timeline-number">03</div>
+                <h4>Get Results Instantly</h4>
+                <p>Receive marks, percentage, pass/fail status, and answer review immediately after submission.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="mt-5">
+    <div class="page-head text-center mb-4">
+        <h2>Platform Highlights</h2>
+        <p>Features that make the portal feel practical and real.</p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="glass-card p-4 h-100">
+                <h4 class="mb-3"><i class="bi bi-laptop me-2"></i>Student Experience</h4>
+                <ul class="home-feature-list">
+                    <li><i class="bi bi-check-circle-fill"></i><span> &nbsp View available exams</span></li>
+                    <li><i class="bi bi-check-circle-fill"></i><span> &nbsp Start timed online exams</span></li>
+                    <li><i class="bi bi-check-circle-fill"></i><span> &nbsp Get instant score and pass/fail status</span></li>
+                    <li><i class="bi bi-check-circle-fill"></i><span> &nbsp Access books, notes, and PYQs</span></li>
+                    <li><i class="bi bi-check-circle-fill"></i><span> &nbsp Use a premium dashboard with quick actions</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="glass-card p-4 h-100">
+                <h4 class="mb-3"><i class="bi bi-person-workspace me-2"></i>Teacher & Admin Experience</h4>
+                <ul class="home-feature-list">
+                    <li><i class="bi bi-check-circle-fill"></i><span> &nbspCreate, update, and manage exams</span></li>
+                    <li><i class="bi bi-check-circle-fill"></i><span> &nbspAdd and maintain question sets</span></li>
+                    <li><i class="bi bi-check-circle-fill"></i><span> &nbspView results and exam summaries</span></li>
+                    <li><i class="bi bi-check-circle-fill"></i><span> &nbspManage academic workflow efficiently</span></li>
+                    <li><i class="bi bi-check-circle-fill"></i><span> &nbspFull Django admin support for control</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="mt-5">
+    <div class="page-head text-center mb-4">
+        <h2>Frequently Asked Questions</h2>
+        <p>Quick answers for common questions.</p>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    
+
+    <div class="accordion custom-accordion" id="faqAccordion">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqOne">
+                    How do students take an exam?
+                </button>
+            </h2>
+            <div id="faqOne" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    Students log in, open the exam list, select an active exam, read instructions, and start the timed test.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqTwo">
+                    Can teachers create and manage exams?
+                </button>
+            </h2>
+            <div id="faqTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    Yes. Teachers can create exams, edit details, add questions, update questions, and delete only their own exams.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqThree">
+                    Does the system provide instant result generation?
+                </button>
+            </h2>
+            <div id="faqThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    Yes. After submitting the exam, the system calculates marks, percentage, pass/fail status, and answer review instantly.
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+        <div class="accordion-item">
+    <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqFour">
+            Can students attempt the same exam multiple times?
+        </button>
+    </h2>
+    <div id="faqFour" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+            Yes, if the teacher has allowed multiple attempts. The system tracks used attempts and remaining attempts automatically.
+        </div>
+    </div>
+</div>
+
+<div class="accordion-item">
+    <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqFive">
+            Is there a timer during the exam?
+        </button>
+    </h2>
+    <div id="faqFive" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+            Yes. Each exam can have a fixed duration, and the countdown timer helps maintain a real online exam environment.
+        </div>
+    </div>
+</div>
+
+<div class="accordion-item">
+    <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqSix">
+            Can teachers edit or delete only their own exams?
+        </button>
+    </h2>
+    <div id="faqSix" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+            Yes. Teachers are authorized to manage only the exams and questions created by them. Other teachers cannot edit or delete those exams.
+        </div>
+    </div>
+</div>
+
+<div class="accordion-item">
+    <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqSeven">
+            Are books, notes, and PYQs available inside the portal?
+        </button>
+    </h2>
+    <div id="faqSeven" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+            Yes. The portal includes dedicated sections for books, notes, previous year questions, and academic resources to support exam preparation.
+        </div>
+    </div>
+</div>
+
+<div class="accordion-item">
+    <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqEight">
+            Can students review their answers after submission?
+        </button>
+    </h2>
+    <div id="faqEight" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+            Yes. After submission, students can view result details, correct answers, selected answers, and overall performance summary.
+        </div>
+    </div>
+</div>
+
+<div class="accordion-item">
+    <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqNine">
+            Does the platform support negative marking?
+        </button>
+    </h2>
+    <div id="faqNine" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+            Yes, the platform can support negative marking if that option is enabled for a specific exam by the teacher.
+        </div>
+    </div>
+</div>
+    </div>
+</section>
+
+<section class="mt-5">
+    <div class="cta-box text-center">
+        <h2>Ready to Experience a Smarter Exam System?</h2>
+        <p>
+            Start with a powerful role-based dashboard, premium UI, timed exams, results, and academic resources.
+        </p>
+
+        <div class="hero-btn-group mt-4">
+            {% if user.is_authenticated %}
+                <a href="{% url 'dashboard' %}" class="btn btn-gradient btn-lg px-4">
+                    <i class="bi bi-rocket-takeoff-fill me-2"></i>Go to Dashboard
+                </a>
+            {% else %}
+                <a href="{% url 'register' %}" class="btn btn-gradient btn-lg px-4">
+                    <i class="bi bi-rocket-takeoff-fill me-2"></i>Start Now
+                </a>
+                <a href="{% url 'login' %}" class="btn btn-outline-dark btn-lg px-4">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
 {% endblock %}
+
+
+
+
+
+

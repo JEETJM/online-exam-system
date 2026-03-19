@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
+{% block title %}Exams | ExamSphere{% endblock %}
 {% block content %}
+
 <div class="page-head mb-4">
     <h2>Available Exams</h2>
     <p>Browse active and published examinations</p>
@@ -8,62 +10,50 @@
 <div class="glass-card p-4 mb-4">
     <form method="get" class="row g-3 align-items-center">
         <div class="col-md-5">
-            <input type="text" name="q" class="form-control" placeholder="Search by exam title">
+            <input type="text" name="q" class="form-control" placeholder="Search by exam title" value="{{ request.GET.q }}">
         </div>
-
         <div class="col-md-5">
             <select name="subject" class="form-select">
                 <option value="">All Subjects</option>
                 {% for sub in subjects %}
-                    <option value="{{ sub }}">{{ sub }}</option>
+                    <option value="{{ sub }}" {% if request.GET.subject == sub %}selected{% endif %}>{{ sub }}</option>
                 {% endfor %}
             </select>
         </div>
-
-        <div class="col-md-2 d-grid">
-            <button class="btn btn-dark">Filter</button>
+        <div class="col-md-2">
+            <button class="btn btn-gradient w-100">Filter</button>
         </div>
     </form>
 </div>
 
 <div class="row g-4">
     {% for exam in exams %}
-    <div class="col-lg-4 col-md-6">
-        <div class="exam-card h-100">
+    <div class="col-md-6 col-lg-4">
+        <div class="exam-card">
             <div class="exam-card-top">
                 <span class="subject-pill">{{ exam.subject }}</span>
                 <span class="marks-pill">{{ exam.total_marks }} Marks</span>
             </div>
 
             <h4>{{ exam.title }}</h4>
-            <p class="text-muted">{{ exam.description|default:"No description available."|truncatechars:120 }}</p>
+            <p>{{ exam.description|default:"No description available." }}</p>
 
-            <ul class="list-unstyled exam-meta mb-4">
-                <li><i class="bi bi-clock-history"></i> Duration: {{ exam.duration_minutes }} min</li>
-                <li><i class="bi bi-patch-check"></i> Passing Marks: {{ exam.passing_marks }}</li>
-                <li><i class="bi bi-arrow-repeat"></i> Attempts Allowed: {{ exam.attempt_limit }}</li>
+            <ul class="exam-meta mt-3 list-unstyled">
+                <li><i class="bi bi-clock me-2"></i>Duration: {{ exam.duration_minutes }} min</li>
+                <li><i class="bi bi-patch-check me-2"></i>Passing Marks: {{ exam.passing_marks }}</li>
+                <li><i class="bi bi-arrow-repeat me-2"></i>Attempts Allowed: {{ exam.attempt_limit }}</li>
             </ul>
 
-            <div class="d-flex flex-wrap gap-2 mt-auto">
-                <a href="{% url 'exam_detail' exam.id %}" class="btn btn-outline-dark btn-sm">
-                    <i class="bi bi-eye me-1"></i>Details
-                </a>
-
-                {% if user.is_authenticated and user.profile.role == 'student' %}
-                    <a href="{% url 'exam_instructions' exam.id %}" class="btn btn-success btn-sm">
-                        <i class="bi bi-play-circle me-1"></i>Start Exam
-                    </a>
-                {% endif %}
-            </div>
+            <a href="{% url 'exam_detail' exam.id %}" class="btn btn-outline-dark mt-3">Details</a>
         </div>
     </div>
     {% empty %}
     <div class="col-12">
-        <div class="glass-card p-5 text-center">
-            <h4>No exams available</h4>
-            <p class="text-muted mb-0">No active exams found right now.</p>
+        <div class="glass-card p-4 text-center">
+            <p class="mb-0">No exams available.</p>
         </div>
     </div>
     {% endfor %}
 </div>
+
 {% endblock %}
