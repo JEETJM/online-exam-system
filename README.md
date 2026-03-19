@@ -1,6 +1,9 @@
 <div align="center">
 
 # 🎓 ExamSphere — Online Examination System
+<p align="center">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Poppins&size=26&duration=3000&color=00C2FF&center=true&vCenter=true&width=700&lines=Modern+Online+Exam+Platform;Built+with+Django+%26+Bootstrap;Role-Based+Authentication+System;Books+%2B+PYQ+%2B+Resources+Integrated" />
+</p>
 
 ### A modern Django-based Online Examination Platform for Students, Teachers, and Admins
 
