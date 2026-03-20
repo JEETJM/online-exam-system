@@ -1,3 +1,7 @@
+
+
+
+
 {% extends 'base.html' %}
 {% block title %}{{ page_title }} | ExamSphere{% endblock %}
 {% block content %}
@@ -15,7 +19,94 @@
 
             <form method="post">
                 {% csrf_token %}
-                {{ form.as_p }}
+
+                {% if form.errors %}
+                <div class="alert alert-danger mb-3">
+                    <strong>Form errors:</strong>
+                    {{ form.errors }}
+                </div>
+                {% endif %}
+
+                <div class="mb-3">
+                    <label class="form-label">Title</label>
+                    {{ form.title }}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Subject</label>
+                    {{ form.subject }}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Subject Ref</label>
+                    {{ form.subject_ref }}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Department</label>
+                    {{ form.department }}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Semester</label>
+                    {{ form.semester }}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    {{ form.description }}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Instructions</label>
+                    {{ form.instructions }}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Duration (minutes)</label>
+                    {{ form.duration_minutes }}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Passing Marks</label>
+                    {{ form.passing_marks }}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Attempt Limit</label>
+                    {{ form.attempt_limit }}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Start Time</label>
+                    {{ form.start_time }}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">End Time</label>
+                    {{ form.end_time }}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Exam Code</label>
+                    {{ form.exam_code }}
+                </div>
+
+                <div class="mb-3 d-flex gap-4">
+                    <div class="form-check">
+                        {{ form.is_active }}
+                        <label class="form-check-label ms-2" for="{{ form.is_active.id_for_label }}">
+                            Is Active
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        {{ form.is_published }}
+                        <label class="form-check-label ms-2" for="{{ form.is_published.id_for_label }}">
+                            Is Published
+                        </label>
+                    </div>
+                </div>
 
                 <div class="d-flex gap-3 flex-wrap mt-3">
                     <button type="submit" class="btn btn-gradient px-4">

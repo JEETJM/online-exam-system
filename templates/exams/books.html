@@ -1,5 +1,6 @@
 {% extends 'base.html' %} {% block title %}Books | ExamSphere{% endblock %} {%
 block content %}
+
 <div class="page-head mb-4 text-center">
   <h2>Books & Resources</h2>
   <p>Study materials and reference files.</p>
@@ -14,27 +15,38 @@ block content %}
       <div class="feature-icon green">
         <i class="bi bi-book-fill"></i>
       </div>
+
       <h4>{{ book.title }}</h4>
       <p>{{ book.desc }}</p>
 
       <ul class="home-feature-list mt-3">
         <li>
-          <i class="bi bi-check-circle-fill"></i> Subject: {{ book.subject }}
+          <i class="bi bi-check-circle-fill"></i>
+          Subject: {{ book.subject }}
         </li>
-        <li><i class="bi bi-check-circle-fill"></i> Type: {{ book.type }}</li>
-        <li><i class="bi bi-check-circle-fill"></i> Level: {{ book.level }}</li>
+        <li>
+          <i class="bi bi-check-circle-fill"></i>
+          Type: {{ book.type }}
+        </li>
+        <li>
+          <i class="bi bi-check-circle-fill"></i>
+          Level: {{ book.level }}
+        </li>
       </ul>
 
       <div class="hero-btn-group mt-4">
         <a
           href="https://drive.google.com/drive/folders/1eSaamoOOw1AM9FTSsv6ymnLapMWcfB-8"
           class="btn btn-gradient"
+          target="_blank"
         >
           <i class="bi bi-eye-fill me-2"></i>View
         </a>
+
         <a
           href="https://drive.google.com/drive/folders/1O7WVpqd5f4pYk5AelpoKtF2f_d1jdWrj"
           class="btn btn-outline-dark"
+          target="_blank"
         >
           <i class="bi bi-download me-2"></i>Download
         </a>
@@ -49,4 +61,5 @@ block content %}
   </div>
   {% endfor %}
 </div>
+
 {% endblock %}

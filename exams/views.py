@@ -33,17 +33,55 @@ def exam_list(request):
     })
 
 
+# @login_required
+# @teacher_required
+# def exam_create(request):
+#     if request.method == 'POST':
+#         form = ExamForm(request.POST)
+#         if form.is_valid():
+#             exam = form.save(commit=False)
+#             exam.teacher = request.user
+#             exam.save()
+#             messages.success(request, 'Exam created successfully.')
+#             return redirect('exam_detail', pk=exam.id)
+#     else:
+#         form = ExamForm()
+
+#     return render(request, 'exams/exam_form.html', {
+#         'form': form,
+#         'page_title': 'Create Exam'
+#     })
+
+
+
+
+
+
+
+
+
 @login_required
 @teacher_required
 def exam_create(request):
+    print("METHOD:", request.method)
+
     if request.method == 'POST':
+        print("POST DATA:", request.POST)
+
         form = ExamForm(request.POST)
+
         if form.is_valid():
+            print("FORM VALID")
             exam = form.save(commit=False)
             exam.teacher = request.user
             exam.save()
+            print("EXAM SAVED:", exam.id)
             messages.success(request, 'Exam created successfully.')
             return redirect('exam_detail', pk=exam.id)
+        else:
+            print("FORM INVALID")
+            print(form.errors)
+
     else:
         form = ExamForm()
 
@@ -51,7 +89,10 @@ def exam_create(request):
         'form': form,
         'page_title': 'Create Exam'
     })
-
+    
+    
+    
+    
 
 @login_required
 @teacher_required
